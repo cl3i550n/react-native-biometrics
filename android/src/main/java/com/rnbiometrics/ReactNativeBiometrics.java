@@ -77,7 +77,7 @@ public class ReactNativeBiometrics extends ReactContextBaseJavaModule {
                             break;
                         case BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED:
                             resultMap.putString("error", "BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED");
-                            break; 
+                            break;
                     }
 
                     promise.resolve(resultMap);
@@ -190,7 +190,7 @@ public class ReactNativeBiometrics extends ReactContextBaseJavaModule {
 
         builder.setAllowedAuthenticators(getAllowedAuthenticators(allowDeviceCredentials));
 
-        if (allowDeviceCredentials == false || isCurrentSDK29OrEarlier()) {
+        if (!allowDeviceCredentials || isCurrentSDK29OrEarlier()) {
             builder.setNegativeButtonText(cancelButtonText);
         }
 
@@ -200,6 +200,9 @@ public class ReactNativeBiometrics extends ReactContextBaseJavaModule {
     private int getAllowedAuthenticators(boolean allowDeviceCredentials) {
         if (allowDeviceCredentials && !isCurrentSDK29OrEarlier()) {
             return BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return BiometricManager.Authenticators.BIOMETRIC_WEAK;
         }
         return BiometricManager.Authenticators.BIOMETRIC_STRONG;
     }
