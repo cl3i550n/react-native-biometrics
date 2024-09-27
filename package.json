@@ -1,6 +1,6 @@
 {
   "name": "react-native-biometrics",
-  "version": "3.0.1",
+  "version": "3.1.8",
   "summary": "A React Native library for biometrics",
   "description": "React Native biometric functionality for signing and encryption",
   "main": "build/cjs/index.js",
@@ -43,6 +43,7 @@
     "url": "https://github.com/SelfLender/react-native-biometrics/issues"
   },
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "react-native": "^0.75.2",
+    "typescript": "^5.5.4"
   }
 }

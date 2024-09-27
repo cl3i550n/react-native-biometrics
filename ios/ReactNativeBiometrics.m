@@ -35,11 +35,12 @@ RCT_EXPORT_METHOD(isSensorAvailable: (NSDictionary *)params resolver:(RCTPromise
     resolve(result);
   } else {
     NSString *errorMessage = [NSString stringWithFormat:@"%@", la_error];
-    NSDictionary *result = @{
-      @"available": @(NO),
-      @"error": errorMessage
-    };
-
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:3];
+    result[@"available"] = @(NO);
+    result[@"error"] = errorMessage;
+    if (la_error.code == kLAErrorBiometryNotEnrolled) {
+      result[@"error"] = @"BIOMETRIC_ERROR_NONE_ENROLLED";
+    }
     resolve(result);
   }
 }
@@ -163,8 +164,16 @@ RCT_EXPORT_METHOD(createSignature: (NSDictionary *)params resolver:(RCTPromiseRe
         reject(@"signature_error", message, nil);
       }
     } else {
-      NSString *message = [NSString stringWithFormat:@"Key not found: %@",[self keychainErrorToString:status]];
-      reject(@"storage_error", message, nil);
+      if (status == errSecUserCanceled) {
+        NSDictionary *result = @{
+          @"success": @(NO),
+          @"error": @"User cancellation"
+        };
+        resolve(result);
+      } else {
+        NSString *message = [NSString stringWithFormat:@"Key not found: %@",[self keychainErrorToString:status]];
+        reject(@"storage_error", message, nil);
+      }
     }
   });
 }
