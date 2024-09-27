@@ -7,10 +7,7 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "outDir": "build",
-    "lib": ["es2015", "es2015.promise"]
+    "lib": ["ES2015", "ES2015.Promise", "DOM"]
   },
-  "include": [
-    "index.ts",
-    "modules.d.ts"
-  ]
+  "include": ["index.ts", "modules.d.ts"]
 }
