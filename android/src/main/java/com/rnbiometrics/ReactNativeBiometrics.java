@@ -186,7 +186,7 @@ public class ReactNativeBiometrics extends ReactContextBaseJavaModule {
     }
 
     private PromptInfo getPromptInfo(String promptMessage, String cancelButtonText, boolean allowDeviceCredentials) {
-        PromptInfo.Builder builder = new PromptInfo.Builder().setTitle(promptMessage);
+        PromptInfo.Builder builder = new PromptInfo.Builder().setTitle(promptMessage).setConfirmationRequired(false);
 
         builder.setAllowedAuthenticators(getAllowedAuthenticators(allowDeviceCredentials));
 
